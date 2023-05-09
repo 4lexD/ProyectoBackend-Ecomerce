@@ -20,14 +20,21 @@ class CartDao {
     }
     async findById(cid){
         try {
-            const document = await cartModel.findById(cid);
+            const document = await cartModel.findById(cid).populate('products._id');
             if (!document) return null;
             return {
-                id: document._id,
                 products: document.products.map(item => {
+                    const { _id: product } = item;
                     return {
-                        id: item._id,
-                        quantity: item.quantity
+                        id: product._id,
+                        quantity: item.quantity,
+                        title: product.title,
+                        description: product.description,
+                        code: product.code,
+                        price: product.price,
+                        status: product.status,
+                        stock: product.stock,
+                        thumbnail: product.thumbnail,
                     }
                 })
             }
@@ -37,13 +44,13 @@ class CartDao {
     }
     async addToCart(cid, pid) {
         try {
-            const updateProducts = await cartModel.findOneAndUpdate(
+            const document = await cartModel.findOneAndUpdate(
               { _id: cid, 'products._id': pid },
               { $inc: { 'products.$.quantity': 1 } },
               { new: true }
             );
           
-            if (!updateProducts) {
+            if (!document) {
               await cartModel.updateOne(
                 { _id: cid },
                 { $push: { products: { _id: pid, quantity: 1 } } }
@@ -63,6 +70,77 @@ class CartDao {
             throw error;
         }
     }
+
+    async delete(id) {
+        try {
+            const document = await cartModel.findOneAndUpdate(
+                { _id: id },
+                { $unset: { products: true } },
+                { new: true }
+            );
+            return {
+                id: document._id
+            }
+        } catch (error) {
+            throw error;
+        }
+    };
+    async deleteOne(cid, pid) {
+        try {
+            const document = await cartModel.findByIdAndUpdate(
+                { _id: cid },
+                { $pull: { products: { _id: pid } } },
+                { new: true }
+            )
+
+            return {
+                id: document._id
+            };
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    async updateOne(item, cid, pid) {
+        try {
+            const document = await cartModel.findOneAndUpdate(
+                { _id: cid, 'products._id': pid },
+                { $set: { 'products.$.quantity': item.quantity } },
+                { new: true }
+            );
+            return {
+                id: document._id,
+                products: document.products.map(item => {
+                    return {
+                        id: item._id,
+                        quantity: item.quantity
+                    }
+                })
+            }
+        } catch (error) {
+            throw error;
+        }
+    };
+    async update(item, cid) {
+        try {
+            const document = await cartModel.findOneAndUpdate(
+                { _id: cid },
+                { $set: { 'products': item.products } },
+                { new: true }
+            );
+            return {
+                id: document._id,
+                products: document.products.map(item => {
+                    return {
+                        id: item._id,
+                        quantity: item.quantity
+                    }
+                })
+            }
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 export default CartDao;

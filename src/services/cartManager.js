@@ -28,6 +28,40 @@ class CartManager{
             throw error;
         };
     }
+
+    async clear(id) {
+        try {
+            return this.carts.delete(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async clearOne(cid, pid) {
+        try {
+            return this.carts.deleteOne(cid, pid);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateOne(product, cid, pid) {
+        try {
+            return this.carts.updateOne(product, cid, pid);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async update(product, cid) {
+        try {
+            return this.carts.update(product, cid);
+        } catch (error) {
+            throw error;
+        }
+    }
+
 };
+
 
 export default CartManager;

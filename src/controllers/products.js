@@ -4,8 +4,10 @@ class ProductController{
 
     static get = async (req,res) =>{
         try {
+
+            const paginate = req.query;
             const manager = new ProductManager();
-            const result = await manager.getAll();
+            const result = await manager.getAll(paginate);
 
             res.status(200).send({message: "success", result});
         } catch (error) {

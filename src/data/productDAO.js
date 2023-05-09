@@ -24,11 +24,24 @@ class ProductDao {
 
     }
 
-    async find(){
+    async find(paginate){
         try {
-            const productDocument = await productModel.find({status:true});
+           // const productDocument = await productModel.find({status:true});
+           const { limit = 10, page = 1, sort, query } = paginate;
 
-            return productDocument.map(document => ({
+           const options = {
+               limit,
+               page,
+               sort: sort && { price: SORTVALUE[sort] },
+           };
+
+           const filters = {
+               status: true,
+               filter: query && { filter: { query } }
+           };
+
+           const { docs, ...rest } = await productModel.paginate(filters, options)
+            const productDocument = docs.map(document => ({
                 id: document._id,
                 title: document.title,
                 description: document.description,
@@ -37,6 +50,8 @@ class ProductDao {
                 code: document.code,
                 stock: document.stock
             }));
+
+            return { payload: productDocument, ...rest };
         } catch (error) {
             console.error(error);
             throw error;
