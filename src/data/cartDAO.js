@@ -84,7 +84,7 @@ class CartDao {
         } catch (error) {
             throw error;
         }
-    };
+    }
     async deleteOne(cid, pid) {
         try {
             const document = await cartModel.findByIdAndUpdate(
@@ -99,7 +99,7 @@ class CartDao {
         } catch (error) {
             throw error;
         }
-    };
+    }
 
     async updateOne(item, cid, pid) {
         try {
@@ -120,7 +120,7 @@ class CartDao {
         } catch (error) {
             throw error;
         }
-    };
+    }
     async update(item, cid) {
         try {
             const document = await cartModel.findOneAndUpdate(
@@ -140,7 +140,7 @@ class CartDao {
         } catch (error) {
             throw error;
         }
-    };
+    }
 }
 
 export default CartDao;
