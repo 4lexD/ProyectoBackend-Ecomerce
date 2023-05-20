@@ -1,4 +1,4 @@
-import { createHash, isValidPassword } from "../helpers/bcryptHash.js";
+import { createHash, isValidPassword } from "../shared/bcryptHash.js";
 import UserManager from "../services/userManager.js";
 
 class SessionController{
@@ -18,28 +18,24 @@ class SessionController{
 
     }
 
-    static logIn = async (req,res)=>{
+    static logIn = async (req, res) => {
         try {
-            const {email, password} = req.body
-
-            const manager = new UserManager();
-
-            const user = await manager.getOneByEmail(email);
-            const HashedPass = await isValidPassword(password, user.password);
-
-            if (!HashedPass)
-            {
-                return res.status(401).send({ message: 'Login failed'})
-            }
-
-            req.session.user = { email };
-
-            res.send({ message: 'Login success!' });
+          const { email, password } = req.body;
+          const manager = new UserManager();
+          const user = await manager.getOneByEmail(email);
+          const isPasswordValid = await isValidPassword(password, user.password);
+      
+          if (!isPasswordValid) {
+            return res.status(401).send({ message: 'Login failed' });
+          }
+      
+          req.session.user = { email, role: user.role };
+          res.send({ message: 'Login success!' });
         } catch (error) {
-            res.status(500).send({error: error.message});
+          res.status(500).send({ error: error.message });
         }
-
     }
+
 }
 
 export default SessionController;

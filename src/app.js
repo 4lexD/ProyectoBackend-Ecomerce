@@ -23,7 +23,7 @@ app.use(session({
     store:MongoStore.create({
         mongoUrl: process.env.MONGODB_URI,
         mongoOptions: {useNewUrlParser:true, useUnifiedTopology:true},
-        ttl:10
+        ttl:11
     }),
     secret:process.env.SECRET || 'S3cr3t' ,
     resave:false,
@@ -36,4 +36,4 @@ const httpServer = app.listen(port, ()=> {
     console.log(`server runing on http://localhost:${port}`);
 
     DataBase.connect();
-});
+}); 

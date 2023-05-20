@@ -27,6 +27,7 @@ class UserDao {
                 firstName: document.firstName,
                 lastName: document.lastName,
                 email: document.email,
+                role: document.role
             }));
 
         } catch (error) {
@@ -63,7 +64,8 @@ class UserDao {
                 fistName: userDocument.fistName,
                 lastName: userDocument.lastName,
                 email: userDocument.email,
-                password: userDocument.password
+                password: userDocument.password,
+                role: userDocument.role
             }
 
         } catch (error) {
