@@ -5,36 +5,19 @@ class UserManager {
         this.users = new UserDao();
     }
     async addOne(data){
-        try {
-            return this.users.create(data)
-        } catch (error) {
-            throw error
-        }
+        return this.users.create(data)
     }
 
     async getOne(id){
-        try {
-            return this.users.findOne(id);
-        } catch (error) {
-            throw error
-        }
+        return this.users.findOne(id);
     }
 
-    
     async getOneByEmail(email){
-        try {
-            return this.users.findOneByEmail(email);
-        } catch (error) {
-            throw error
-        }
+        return this.users.findOneByEmail(email);
     }
 
     async getAll(){
-        try {
-            return this.users.find()
-        } catch (error) {
-            throw error
-        }
+        return this.users.find()
     }
 }
 

@@ -3,76 +3,52 @@ import { userModel } from "../models/UserModel.js";
 class UserDao {
 
     async create(data){
-        try {
-            const userDocument = await userModel.create(data);
-            return {
-                id: userDocument._id,
-                fistName: userDocument.fistName,
-                lastName: userDocument.lastName,
-                email: userDocument.email,
-                password: userDocument.password
-            }
-        } catch (error) {
-            console.error(error)
-            throw error;
+        const userDocument = await userModel.create(data);
+        return {
+            id: userDocument._id,
+            fistName: userDocument.fistName,
+            lastName: userDocument.lastName,
+            email: userDocument.email,
+            password: userDocument.password
         }
     }
 
     async find(){
-        try {
-            const userDocument = await userModel.find();
+        const userDocument = await userModel.find();
 
-            return userDocument.map(document => ({
-                id: document._id,
-                firstName: document.firstName,
-                lastName: document.lastName,
-                email: document.email,
-                role: document.role
-            }));
-
-        } catch (error) {
-                        console.error(error)
-            throw error;
-        }
+        return userDocument.map(document => ({
+            id: document._id,
+            firstName: document.firstName,
+            lastName: document.lastName,
+            email: document.email,
+            role: document.role
+        }));
     }
 
     async findOne(id){
+        const userDocument = await userModel.findOne(id);
 
-        try {
-            const userDocument = await userModel.findOne(id);
-
-            return {
-                id: userDocument._id,
-                fistName: userDocument.fistName,
-                lastName: userDocument.lastName,
-                email: userDocument.email
-            }
-
-        } catch (error) {
-            console.error(error)
-            throw error;
+        return {
+            id: userDocument._id,
+            fistName: userDocument.fistName,
+            lastName: userDocument.lastName,
+            email: userDocument.email
         }
     }
 
     async findOneByEmail(email){
+        const userDocument = await userModel.findOne({ email });
 
-        try {
-            const userDocument = await userModel.findOne({ email });
-
-            return {
-                id: userDocument._id,
-                fistName: userDocument.fistName,
-                lastName: userDocument.lastName,
-                email: userDocument.email,
-                password: userDocument.password,
-                role: userDocument.role
-            }
-
-        } catch (error) {
-            console.error(error)
-            throw error;
+        return {
+            id: userDocument._id,
+            fistName: userDocument.fistName,
+            lastName: userDocument.lastName,
+            email: userDocument.email,
+            password: userDocument.password,
+            role: userDocument.role
         }
+
     }
-}
+};
 
 export default UserDao;

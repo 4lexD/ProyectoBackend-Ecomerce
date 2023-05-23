@@ -7,45 +7,23 @@ class ProductManager{
     }
 
     async getAll(paginate){
-        try {
-            return this.products.find(paginate);
-        } catch (error) {
-            throw error;
-        }
+        return this.products.find(paginate);
     }
 
     async getOne(id){
-        try {
-            return this.products.findById(id)
-        } catch (error) {
-            throw error;
-        }
+        return this.products.findById(id);
     }
 
     async addOne(data){
-        try {
-            return this.products.create(data);
-        } catch (error) {
-            throw error;
-        }
-        
+        return this.products.create(data);
     }
 
     async updateOne(id, data){
-        try {
-          return this.products.updateById(id, data);  
-        } catch (error) {
-            throw error;
-        }
-        
+        return this.products.updateById(id, data);  
     }
 
     async deleteOne(id){
-        try {
-            return this.products.removeById(id);
-        } catch (error) {
-            throw error;
-        }
+        return this.products.removeById(id);
     };
 
 

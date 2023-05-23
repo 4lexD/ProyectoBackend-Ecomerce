@@ -2,7 +2,7 @@ import ProductManager from "../services/productManager.js";
 
 class ProductController{
 
-    static get = async (req,res) =>{
+    static get = async (req,res,next) =>{
         try {
 
             const paginate = req.query;
@@ -10,38 +10,36 @@ class ProductController{
             const result = await manager.getAll(paginate);
 
             res.status(200).send({message: "success", result});
-        } catch (error) {
-            res.status(500).send({ error: error.message });
+        } catch (e) {
+            next(e);
         };
     }
 
-    static getById = async (req,res)=>{
+    static getById = async (req,res,next)=>{
         try {  
             const {id} = req.params;
             const manager = new ProductManager();
             const result = await manager.getOne(id);
             
             res.status(200).send({message:"success", result});
-        } catch (error) {
-            res.status(500).send({ error: error.message });
+        } catch (e) {
+            next(e);
         };
     }
 
-    static post = async (req,res)=>{
+    static post = async (req,res,next)=>{
         try {
             const { body } = req;
             const manager = new ProductManager();
             const result = await manager.addOne(body);
 
             res.status(200).send({message: "succes", result});  
-        } catch (error) {
-            res.status(500).send({error: error.message});
+        } catch (e) {
+            next(e);
         };
-            
-
     }
 
-    static put = async (req,res)=>{
+    static put = async (req,res,next)=>{
         try {
             const {id} = req.params;
             const { body } = req;
@@ -50,20 +48,20 @@ class ProductController{
 
             res.status(200).send({message:'success', result});
 
-        } catch (error) {
-            res.status(500).send({error: error.message});
+        } catch (e) {
+            next(e);
         };
     }
 
-    static delete = async (req,res)=>{
+    static delete = async (req,res,next)=>{
         try {
             const {id} = req.params;
             const manager = new ProductManager();
             const result = await manager.deleteOne(id);
 
             res.status(200).send({message: "success", result});
-        } catch (error) {
-            res.status(500).send({error: error.message});
+        } catch (e) {
+            next(e);
         };
     }
 };
