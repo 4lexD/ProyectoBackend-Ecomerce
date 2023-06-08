@@ -2,12 +2,12 @@ import express from 'express'
 import 'dotenv/config';
 import DataBase from './config/mongoClient.js';
 import cors from 'cors'
-import productRouter from './routes/productsRouter.js';
-import cartRouter from './routes/cartRouter.js';
 import cookieParser from 'cookie-parser';
-import userRouter from './routes/userRouter.js';
-import sessionRouter from './routes/sessionRouter.js';
-import errorHandler from './middlewares/errorHandler.js';
+import productRouter from './presentation/routes/productsRouter.js';
+import cartRouter from './presentation/routes/cartRouter.js';
+import userRouter from './presentation/routes/userRouter.js';
+import sessionRouter from './presentation/routes/sessionRouter.js';
+import errorHandler from './presentation/middlewares/errorHandler.js';
 
 const app = express();
 const port = process.env.PORT || 8080;

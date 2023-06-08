@@ -1,4 +1,4 @@
-import { createHash, isValidPassword, generateToken } from "../shared/index.js";
+import { createHash, isValidPassword, generateToken } from "../../shared/index.js";
 import loginValidation from "../validations/LoginFormatValidation.js";
 import UserManager from "./userManager.js";
 

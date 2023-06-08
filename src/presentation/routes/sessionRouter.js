@@ -7,6 +7,6 @@ const sessionRouter = Router();
 sessionRouter.post("/login", SessionController.logIn);
 sessionRouter.post("/signup", SessionController.SignUp);
 sessionRouter.post("/logout", SessionController.logOut);
-sessionRouter.get("/private",auth,SessionController.private);
+sessionRouter.get("/current",auth,SessionController.current);
 
 export default sessionRouter;

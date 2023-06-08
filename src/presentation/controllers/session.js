@@ -1,4 +1,4 @@
-import SessionManager from "../services/sessionManager.js";
+import SessionManager from "../../domain/services/sessionManager.js";
 
 class SessionController{
   static SignUp = async (req,res,next)=>{
@@ -31,7 +31,7 @@ class SessionController{
           httpOnly: true
         })
         .status(200)
-        .send({ message: 'Login success!' });
+        .send({ accessToken, message: 'Login success!' });
     } catch (e) {
       next(e);
     }
@@ -45,12 +45,9 @@ class SessionController{
     }
   }
 
-  static private = async (req, res,next) => {
+  static current = async (req, res,next) => {
     try {
-      if (req.user.role !== "user") {
-        return res.status(403).send({ message: 'No tienes los permisos adecuados' });
-      }
-      res.send({ message: 'Ruta protegida para usuarios con el rol "user"' });
+      res.status(200).send({ status: 'Success', payload: req.user });
     } catch (e) {
       next(e)
     }
