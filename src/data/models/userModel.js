@@ -1,4 +1,6 @@
 import {Schema, model} from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
+
 
 const userCollection = 'users';
 
@@ -25,10 +27,18 @@ const userSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'carts',
     },
-    role:{
-        type: Schema.Types.String,
-        enum: ['user', 'admin'],
-        default: 'user'
+    age: {
+        type: Schema.Types.Number,
+        default: 18
+    },
+    role:{ 
+        type: Schema.Types.ObjectId,
+        index: true,
+        ref: 'roles'
+    },
+    isAdmin: { 
+        type: Schema.Types.Boolean,
+        default: false 
     },
     status:{
         type: Schema.Types.Boolean,
@@ -38,5 +48,15 @@ const userSchema = Schema({
 {
     timestamps: true
 });
+
+ userSchema.plugin(paginate);
+
+ userSchema.pre('find', function () {
+    this.populate(['role']);
+  });
+
+  userSchema.pre('findOne', function () {
+    this.populate(['role']);
+  });
 
 export const userModel = model(userCollection,userSchema);

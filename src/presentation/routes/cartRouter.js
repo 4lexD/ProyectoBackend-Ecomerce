@@ -10,5 +10,6 @@ cartRouter.put('/:cid/product/:pid',CartController.putOne);
 cartRouter.put('/:cid',CartController.put);
 cartRouter.delete('/:cid',CartController.delete);
 cartRouter.delete('/:cid/product/:pid', CartController.deleteOne);
-
+cartRouter.post('/:cid/user/:uid', CartController.postUserInCart);
+cartRouter.post('/:cid/purcharse',CartController.purcharse)
 export default cartRouter;

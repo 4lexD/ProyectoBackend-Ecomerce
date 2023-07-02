@@ -1,3 +1,4 @@
+import { paginate } from "mongoose-paginate-v2";
 import UserManager from "../../domain/services/userManager.js";
 
 class UserController{
@@ -15,10 +16,10 @@ class UserController{
 
     static get = async (req,res,next)=>{
         try {
-
+            const paginate = req.query;
             const manager = new UserManager();
             
-            const result = await manager.getAll();
+            const result = await manager.getAll(paginate);
             res.status(200).send({message: "success", result});
         } catch (e) {
             next(e);

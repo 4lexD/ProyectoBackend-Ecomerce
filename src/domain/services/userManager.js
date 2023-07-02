@@ -1,8 +1,8 @@
-import UserDao from "../../data/daos/userDAO.js";
 
+import container from "../../container.js";
 class UserManager {
     constructor(){
-        this.users = new UserDao();
+        this.users = container.resolve('UserRepository');
     }
     async addOne(data){
         return this.users.create(data)
@@ -16,8 +16,8 @@ class UserManager {
         return this.users.findOneByEmail(email);
     }
 
-    async getAll(){
-        return this.users.find()
+    async getAll(paginate){
+        return this.users.find(paginate)
     }
 }
 

@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 
 const cartCollection = 'carts'
 const cartSchema = Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
    products:{
     type:[{
         _id:{

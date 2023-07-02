@@ -34,6 +34,18 @@ class CartController{
             next(e);
         };
     }
+
+    static postUserInCart = async (req,res,next) =>{
+        try {
+            const {cid,uid} = req.params;
+            const manager = new CartManager();
+            const result = await manager.addUserToCart(cid,uid);
+
+            res.status(201).send({message: "success", result});
+        } catch (e) {
+            next(e);
+        };
+    }
     
     static delete = async (req,res,next) =>{
         try {
@@ -72,12 +84,24 @@ class CartController{
         };
     }
 
-    static putOne = async (req,res) =>{
+    static putOne = async (req,res,next) =>{
         try {
             const { body } = req;
             const { cid, pid } = req.params;
             const manager = new CartManager();
             const result = await manager.updateOne(body, cid, pid);
+
+            res.status(200).send({message: "success", result});
+        } catch (e) {
+            next(e);
+        };
+    }
+
+    static purcharse = async (req,res,next) =>{
+        try {
+            const {cid} = req.params;
+            const manager = new CartManager();
+            const result = await manager.checkOut(cid);
 
             res.status(200).send({message: "success", result});
         } catch (e) {

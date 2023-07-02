@@ -26,9 +26,9 @@ class SessionManager{
           return { message: 'Login failed' };
         }
 
-        const accessToken = await generateToken(user);
 
-        return accessToken;  
+        
+        return await generateToken(user);  
     }
 
 

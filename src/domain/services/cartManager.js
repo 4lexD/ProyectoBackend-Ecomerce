@@ -1,20 +1,28 @@
-import CartDao from "../../data/daos/cartDAO.js";
 
+import container from "../../container.js";
+import OrderManager from "./orderManager.js";
+import ticketManager from "./ticketManager.js";
 class CartManager{
     constructor(){
-        this.carts = new CartDao();
+        this.carts = container.resolve('CartRepository');
+        this.order = new OrderManager();
     }
 
     async addOne(data){
         return this.carts.create(data);
+        
     }
 
     async getById(id){
-        return this.carts.findById(id)  
+        return this.carts.findById(id); 
     }
 
     async addOneToCart(cid,pid){
-        return this.carts.addToCart(cid,pid)
+        return this.carts.addToCart(cid,pid);
+    }
+
+    async addUserToCart(cid,uid){
+        return this.carts.addUserToCart(cid,uid);
     }
 
     async clear(id) {
@@ -31,6 +39,10 @@ class CartManager{
 
     async update(product, cid) {
         return this.carts.update(product, cid);
+    }
+
+    async checkOut(id){
+        return this.order.checkOut(id)
     }
 
 };
