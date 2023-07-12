@@ -7,9 +7,9 @@ class RoleMongooseRepository{
         const roleDocument = await roleModel.create(data);
 
         return new Role(
-            roleDocument._id,
-            roleDocument.name,
-            roleDocument.permissions
+            roleDocument?._id.toString(),
+            roleDocument?.name,
+            roleDocument?.permissions
         );
     }
 
@@ -38,7 +38,7 @@ class RoleMongooseRepository{
         }
 
         return new Role(
-            roleDocument._id,
+            roleDocument._id.toString(),
             roleDocument.name,
             roleDocument.permissions
         );
@@ -52,13 +52,13 @@ class RoleMongooseRepository{
         }
 
         return new Role(
-            roleDocument._id,
+            roleDocument._id.toString(),
             roleDocument.name,
             roleDocument.permissions
         );
     }
     async deleteOne(id){
-        return roleDocument = await roleModel.deleteOne({_id:id});
+        return await roleModel.deleteOne({_id:id});
     }
 }
 

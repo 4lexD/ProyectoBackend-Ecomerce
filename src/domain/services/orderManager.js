@@ -8,40 +8,37 @@ class OrderManager {
     this.tickets = new ticketManager();
   }
 
-  async checkOut(id) {
-    const checkoutCart = await this.carts.findById(id);
-    let totalAmount = 0;
+    async checkOut(id) {
+        const checkoutCart = await this.carts.findById(id);
+        let totalAmount = 0;
 
-    for (const products of checkoutCart.products) {
-      const product = await this.productsRepository.findById(products.id);
-      if (product.stock === 0) {
-        throw new Error(`El producto ${product.title} se encuentra sin stock`);
-      }
-      if (product.stock - products.quantity < 0) {
-        throw new Error(
-          `No tenemos stock suficiente de ${product.title}, actualmente tenemos ${product.stock}u`
-        );
-      }
-      totalAmount += product.price * products.quantity;
-      
+        for (const products of checkoutCart.products) {
+            const product = await this.productsRepository.findById(products.id);
+            if (product.stock === 0) {
+                throw new Error(`The product ${product.title} is out of stock`);
+            }
+            if (product.stock - products.quantity < 0) {
+                throw new Error(
+                `We don't have enough stock of ${product.title}, we currently have ${product.stock}`);
+            }
+            totalAmount += product.price * products.quantity;
 
-      
-      const updatedProduct = await this.productsRepository.updateById(product.id, { $inc:{ stock: -products.quantity } });
+            const updatedProduct = await this.productsRepository.updateById(product.id, { $inc:{ stock: -products.quantity } });
 
-      if (updatedProduct.stock === 0) {
-        updatedProduct.status = false;
-        await updatedProduct.save();
-      }
+            if (updatedProduct.stock === 0) {
+                updatedProduct.status = false;
+                await updatedProduct.save();
+            }
+        }
+        const ticket = this.tickets.create({
+            amount: totalAmount,
+            purchaser: checkoutCart.user
+        });
+
+        await this.carts.delete(id);
+
+        return ticket;
     }
-    const ticket = this.tickets.create({
-      amount: totalAmount,
-      purchaser: checkoutCart.user
-    });
-
-    await this.carts.delete(id);
-
-    return ticket;
-  }
 }
 
 export default OrderManager;

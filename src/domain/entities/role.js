@@ -1,10 +1,12 @@
-class Role {
-    constructor(props){
-        this.id = props.id;
-        this.name = props.name;
-        this.permissions = props.permissions;
-    };
 
-};
+class Role
+{
+  constructor(id, name, permissions)
+  {
+      this.id = id;
+      this.name = name;
+      this.permissions = permissions;
+  }
+}
 
 export default Role;

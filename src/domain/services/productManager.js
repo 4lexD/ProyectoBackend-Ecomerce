@@ -1,10 +1,9 @@
-import ProductDao from "../../data/daos/productDAO.js";
+
 import container from "../../container.js";
 
 class ProductManager{
 
     constructor(){
-        //this.products = new ProductDao();
        this.products = container.resolve('ProductRepository');
     }
 

@@ -46,7 +46,7 @@ class UserMongooseRepository {
         const userDocument = await userModel.findOne({_id:id});
 
         return new User({
-            id: userDocument?._id,
+            id: userDocument?._id.toString(),
             firstName: userDocument?.firstName,
             lastName: userDocument?.lastName,
             email: userDocument?.email,
@@ -71,6 +71,43 @@ class UserMongooseRepository {
             role: userDocument.role
         });
 
+    }
+
+    async updateOne(id, data){
+        const userDocument = await userModel.findOneAndUpdate({ _id: id }, data, { new: true});
+  
+      if(!userDocument)
+      {
+        throw new Error('User dont exist.');
+      }
+  
+      return new User ({
+          id: userDocument._id,
+          firstName: userDocument.firstName,
+          lastName: userDocument.lastName,
+          email: userDocument.email,
+          age: userDocument.age,
+          isAdmin: userDocument?.isAdmin
+      });
+    }
+
+    async delete(id) {
+        const userDocument = await userModel.findByIdAndUpdate(
+          id,
+          { status: false },
+          { new: true }
+        );
+
+        return new User({
+            id: userDocument._id.toString(),
+            firstName: userDocument.firstName,
+            lastName: userDocument.lastName,
+            email: userDocument.email,
+            age: userDocument.age,
+            password: userDocument.password,
+            isAdmin: userDocument.isAdmin,
+            role: userDocument.role
+        });
     }
 };
 

@@ -13,6 +13,11 @@ class MongooseAdapter{
     async close(){
         await this.connection.disconnect();
     }
+
+    async drop()
+    {
+      await this.connection.dropDatabase();
+    }
 }
 
 export default MongooseAdapter;
