@@ -33,7 +33,7 @@ class ProductController{
             const manager = new ProductManager();
             const result = await manager.addOne(body);
 
-            res.status(200).send({message: "succes", result});  
+            res.status(201).send({message: "success", result});  
         } catch (e) {
             next(e);
         };

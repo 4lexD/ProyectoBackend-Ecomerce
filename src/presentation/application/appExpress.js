@@ -28,6 +28,14 @@ class AppExpress{
         this.app.use(errorHandler);
     }
 
+    callback(){
+        return this.app;
+    }
+
+    close(){
+        return this.app.close();
+    }
+
     listen(){
         return this.app.listen(process.env.PORT, ()=>{
             console.log(`server runing on http://localhost:${process.env.PORT}`);

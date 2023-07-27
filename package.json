@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "test": "mocha src/tests/*.test.js"
+    "test": "mocha src/tests/Products.test.js"
   },
   "keywords": [],
   "type": "module",
@@ -34,6 +34,7 @@
     "@faker-js/faker": "^8.0.2",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   }
 }
