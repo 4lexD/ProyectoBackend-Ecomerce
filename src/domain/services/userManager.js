@@ -19,6 +19,10 @@ class UserManager {
     async getAll(paginate){
         return this.users.find(paginate)
     }
+
+    async updateOne(id,data){
+        return this.users.updateOne(id,data)
+    }
 }
 
 export default UserManager;

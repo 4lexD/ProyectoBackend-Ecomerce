@@ -1,4 +1,4 @@
-import {userModel} from "../../models/UserModel.js";
+import {userModel} from "../../models/userModel.js";
 import User from "../../../domain/entities/user.js"
 
 class UserMongooseRepository {
