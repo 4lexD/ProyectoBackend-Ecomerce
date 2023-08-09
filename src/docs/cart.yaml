@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: API de Carrito de Compras
+  version: 1.0.0
+paths:
+  /api/cart:
+    post:
+      summary: Crear un nuevo carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '201':
+          description: Carrito creado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+  /api/cart/{id}:
+    get:
+      summary: Obtener información de un carrito por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+    put:
+      summary: Actualizar información de un carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartUpdate'
+      responses:
+        '200':
+          description: Carrito actualizado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+    delete:
+      summary: Eliminar un carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+      responses:
+        '200':
+          description: Carrito eliminado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+  /api/cart/{id}/product/{pid}:
+    post:
+      summary: Agregar un producto a un carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        '201':
+          description: Producto agregado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+    put:
+      summary: Actualizar información de un producto en un carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdate'
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+    delete:
+      summary: Eliminar un producto de un carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        // Propiedades de un carrito
+    ProductUpdate:
+      type: object
+      properties:
+        // Propiedades para actualizar un producto
+    CartUpdate:
+      type: object
+      properties:
+        // Propiedades para actualizar un carrito

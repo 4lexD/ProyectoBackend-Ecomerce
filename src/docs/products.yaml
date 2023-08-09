@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: API de Productos
+  version: 1.0.0
+paths:
+  /api/products:
+    get:
+      summary: Obtener lista de productos
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Página de resultados
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Límite de resultados por página
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              example: { message: success, result: [...] }
+
+  /api/products/{id}:
+    get:
+      summary: Obtener información de un producto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+
+    post:
+      summary: Crear un nuevo producto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+
+    put:
+      summary: Actualizar información de un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdate'
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+
+    delete:
+      summary: Eliminar un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+          content:
+            application/json:
+              example: { message: success, result: {...} }
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        // Propiedades de un producto
+
+    ProductUpdate:
+      type: object
+      properties:
+        // Propiedades para actualizar un producto
