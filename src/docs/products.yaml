@@ -18,12 +18,86 @@ paths:
             type: integer
           description: Límite de resultados por página
       responses:
-        '200':
-          description: Respuesta exitosa
+        "200":
+          description: "Success"
           content:
             application/json:
-              example: { message: success, result: [...] }
-
+              schema:
+                type: object
+                items:
+                  $ref: '#components/schemas/Products'
+              example:
+                {
+                  "status": "success",
+                  "products": [
+                    {
+                      "id": "643c0c7701d8fb15b03506ff",
+                      "title": "producto de prueba",
+                      "description": "producto deprueba",
+                      "code": "avpjgs",
+                      "price": 50,
+                      "status": true,
+                      "stock": 1,
+                      "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                    }
+                  ],
+                  "totalDocs": 8,
+                  "limit": 10,
+                  "totalPages": 1,
+                  "page": 1,
+                  "pagingCounter": 1,
+                  "hasPrevPage": false,
+                  "hasNextPage": false,
+                  "prevPage": null,
+                  "nextPage": null
+                }
+        "500":
+          description: Internal Error Server
+    post:
+      summary: Create Product
+      tags:
+        - Products
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  "id": "643c0c7701d8fb15b03506ff",
+                  "title": "producto de prueba",
+                  "description": "producto deprueba",
+                  "code": "avpjgs",
+                  "price": 50,
+                  "status": true,
+                  "stock": 1,
+                  "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                }
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#components/schemas/Products'
+              example:
+                {
+                  "status": "success",
+                  "products": {
+                      "id": "643c0c7701d8fb15b03506ff",
+                      "title": "producto de prueba",
+                      "description": "producto deprueba",
+                      "code": "avpjgs",
+                      "price": 50,
+                      "status": true,
+                      "stock": 1,
+                      "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                    }
+                }
+        "500":
+          description: Internal Error Server
   /api/products/{id}:
     get:
       summary: Obtener información de un producto por ID
@@ -35,25 +109,24 @@ paths:
             type: string
           description: ID del producto
       responses:
-        '200':
-          description: Respuesta exitosa
+        "200":
+          description: "Success"
           content:
             application/json:
-              example: { message: success, result: {...} }
-
-    post:
-      summary: Crear un nuevo producto
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product'
-      responses:
-        '201':
-          description: Producto creado exitosamente
-          content:
-            application/json:
-              example: { message: success, result: {...} }
+              example:
+                {
+                  "status": "success",
+                  "products": {
+                      "id": "643c0c7701d8fb15b03506ff",
+                      "title": "producto de prueba",
+                      "description": "producto deprueba",
+                      "code": "avpjgs",
+                      "price": 50,
+                      "status": true,
+                      "stock": 1,
+                      "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                    }
+                }
 
     put:
       summary: Actualizar información de un producto
@@ -65,16 +138,43 @@ paths:
             type: string
           description: ID del producto
       requestBody:
+        description: Request Body
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductUpdate'
+              example:
+                {
+                  "status": "success",
+                  "products": {
+                      "id": "643c0c7701d8fb15b03506ff",
+                      "title": "producto de prueba",
+                      "description": "producto deprueba",
+                      "code": "avpjgs",
+                      "price": 50,
+                      "status": true,
+                      "stock": 1,
+                      "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                    }
+                }
       responses:
-        '200':
-          description: Producto actualizado exitosamente
+        "200":
+          description: "Success"
           content:
             application/json:
-              example: { message: success, result: {...} }
+              example:
+                {
+                  "status": "success",
+                  "products": {
+                      "id": "643c0c7701d8fb15b03506ff",
+                      "title": "producto de prueba",
+                      "description": "producto deprueba",
+                      "code": "avpjgs",
+                      "price": 50,
+                      "status": true,
+                      "stock": 1,
+                      "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                    }
+                }
 
     delete:
       summary: Eliminar un producto
@@ -86,20 +186,50 @@ paths:
             type: string
           description: ID del producto
       responses:
-        '200':
-          description: Producto eliminado exitosamente
+        "200":
+          description: "Success"
           content:
             application/json:
-              example: { message: success, result: {...} }
+              example:
+                {
+                  "status": "success",
+                  "products": {
+                      "id": "643c0c7701d8fb15b03506ff",
+                      "title": "producto de prueba",
+                      "description": "producto deprueba",
+                      "code": "avpjgs",
+                      "price": 50,
+                      "status": true,
+                      "stock": 1,
+                      "thumbnail": "https://www.taylorguitars.com/sites/default/files/styles/product_hero/…"
+                    }
+                }
 
 components:
   schemas:
-    Product:
+    Products:
       type: object
       properties:
-        // Propiedades de un producto
-
-    ProductUpdate:
-      type: object
-      properties:
-        // Propiedades para actualizar un producto
+        id:
+          type: ObjectId
+        title:
+          type: String
+          required: true
+        description:
+          type: String
+          required: true
+        code:
+          type: String
+          required: true
+          unique: true
+        price:
+          type: Number
+          required: true
+        status:
+          type: Boolean
+          default: true
+        stock:
+          type: Number
+          required: true
+        thumbnail:
+          type: string
