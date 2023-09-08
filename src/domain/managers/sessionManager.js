@@ -1,36 +1,34 @@
 import { createHash, isValidPassword, generateToken } from "../../shared/index.js";
-import loginValidation from "../validations/LoginFormatValidation.js";
 import UserManager from "./userManager.js";
 import EmailManager from "./emailManager.js";
+import loginValidation from "../validations/Schemas/sessions/loginValidation.js";
+import logger from "../../shared/pino/logger.js";
 
 class SessionManager{
 
     async signUp(userData){
-        const manager = new UserManager();
+      const manager = new UserManager();
 
-        const dto = {...userData,password: await createHash(userData.password,10)};
+      const result = await manager.addOne(userData);
 
-        const result = await manager.addOne(dto);
-
-        return result;
+      return result;
     }
 
     async logIn(credentials){
-        const { email, password } = credentials;
-        loginValidation.parse({email, password});
-
-        const manager = new UserManager();
-        const user = await manager.getOneByEmail(email);
-
-        const isPasswordValid = await isValidPassword(password, user.password);
+      await loginValidation.parseAsync(credentials);
+      const { email, password } = credentials;
         
-        if (!isPasswordValid) {
-          return { message: 'Login failed' };
-        }
+      const manager = new UserManager();
+      const user = await manager.getOneByEmail(email);
 
-
+      const isPasswordValid = await isValidPassword(password, user.password);
         
-        return await generateToken(user);  
+      if (!isPasswordValid) {
+        return { message: 'Login failed' };
+      }
+
+      await manager.updateLastConnection(user.id);
+      return await generateToken(user);  
     }
 
   async forgotPassword(mail){

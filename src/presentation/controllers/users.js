@@ -1,5 +1,5 @@
 import { paginate } from "mongoose-paginate-v2";
-import UserManager from "../../domain/services/userManager.js";
+import UserManager from "../../domain/managers/userManager.js";
 
 class UserController{
     static getOne = async (req,res,next)=>{

@@ -7,12 +7,10 @@ import userRouter from '../../presentation/routes/userRouter.js';
 import sessionRouter from '../../presentation/routes/sessionRouter.js';
 import roleRouter from '../../presentation/routes/roleRouter.js';
 import errorHandler from '../../presentation/middlewares/errorHandler.js';
-import swaggerJsdoc from "swagger-jsdoc"
-import swaggerUiExpress from 'swagger-ui-express'
-import swaggerOptions from '../../config/swaggerConfig.js';
-
-
-
+import config from '../../config/config.js';
+import logger from "../../shared/pino/logger.js";
+import paymentRouter from '../routes/paymentRouter.js';
+const {PORT} = config;
 class AppExpress{
     init(){
         this.app= express();
@@ -28,7 +26,7 @@ class AppExpress{
         this.app.use("/api/users", userRouter);
         this.app.use("/api/session",sessionRouter);
         this.app.use("/api/roles",roleRouter);
-        this.app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJsdoc(swaggerOptions)));
+        this.app.use("/api/payment",paymentRouter);
         this.app.use(errorHandler);
     }
 
@@ -41,8 +39,8 @@ class AppExpress{
     }
 
     listen(){
-        return this.app.listen(process.env.PORT, ()=>{
-            console.log(`server runing on http://localhost:${process.env.PORT}`);
+        return this.app.listen(PORT, ()=>{
+            logger.info(`server runing on http://localhost:${PORT}`);
         });
     }
 };

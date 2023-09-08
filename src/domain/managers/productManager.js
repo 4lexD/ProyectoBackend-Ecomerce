@@ -1,5 +1,7 @@
 
 import container from "../../container.js";
+import productUpdateValidation from "../validations/Schemas/products/productUpdateValidation.js";
+import idValidation from "../validations/Schemas/shared/idValidation.js";
 
 class ProductManager{
 
@@ -12,6 +14,7 @@ class ProductManager{
     }
 
     async getOne(id){
+        await idValidation.parseAsync(id);
         return this.products.findById(id);
     }
 
@@ -20,10 +23,12 @@ class ProductManager{
     }
 
     async updateOne(id, data){
+        await productUpdateValidation.parseAsync(...data,id)
         return this.products.updateById(id, data);  
     }
 
     async deleteOne(id){
+        await idValidation.parseAsync(id);
         return this.products.removeById(id);
     };
 

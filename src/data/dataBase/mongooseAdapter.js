@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-
+import logger from "../../shared/pino/logger.js";
+logger
 class MongooseAdapter{
 
     async init(uri){
@@ -7,7 +8,7 @@ class MongooseAdapter{
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log('Connected to MongoDB');
+        logger.info('Connected to MongoDB');
     }
 
     async close(){

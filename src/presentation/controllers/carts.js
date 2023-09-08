@@ -1,4 +1,4 @@
-import CartManager from "../../domain/services/cartManager.js";
+import CartManager from "../../domain/managers/cartManager.js";
 
 class CartController{
     static post = async (req,res,next) =>{

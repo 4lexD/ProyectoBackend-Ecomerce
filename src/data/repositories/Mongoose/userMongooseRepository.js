@@ -61,7 +61,7 @@ class UserMongooseRepository {
         const userDocument = await userModel.findOne({ email });
 
         return new User({
-            id: userDocument?._id,
+            id: userDocument?._id.toString(),
             firstName: userDocument?.firstName,
             lastName: userDocument?.lastName,
             email: userDocument?.email,
@@ -109,6 +109,30 @@ class UserMongooseRepository {
             role: userDocument.role
         });
     }
+    async updateLastConnection(id,date){
+        const userDocument = await userModel.findByIdAndUpdate({ _id: id },{last_connection:date},{ new: true })
+        return new User({
+            id: userDocument._id.toString(),
+            firstName: userDocument.firstName,
+            lastName: userDocument.lastName,
+            email: userDocument.email,
+            age: userDocument.age,
+            password: userDocument.password,
+            isAdmin: userDocument.isAdmin,
+            role: userDocument.role
+        });
+    }
+
+    async userCleanup(){
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    
+        const cleanUsers = await userModel.deleteMany({
+          last_connection: { $lt: thirtyDaysAgo }
+        })
+        return cleanUsers;
+    }
+
 };
 
 export default UserMongooseRepository;

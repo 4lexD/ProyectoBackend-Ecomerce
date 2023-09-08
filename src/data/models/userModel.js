@@ -43,6 +43,10 @@ const userSchema = Schema({
     status:{
         type: Schema.Types.Boolean,
         default:true
+    },
+    last_connection:{
+        type: Schema.Types.Date,
+        require:false
     }
 }, 
 {

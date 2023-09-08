@@ -1,4 +1,4 @@
-import RoleManager from "../../domain/services/roleManager.js";
+import RoleManager from "../../domain/managers/roleManager.js";
 
 class RoleController{
 

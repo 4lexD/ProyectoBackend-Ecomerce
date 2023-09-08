@@ -1,4 +1,4 @@
-import SessionManager from "../../domain/services/sessionManager.js";
+import SessionManager from "../../domain/managers/sessionManager.js";
 
 class SessionController{
   static SignUp = async (req,res,next)=>{
