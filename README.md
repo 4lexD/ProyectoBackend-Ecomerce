@@ -22,7 +22,7 @@ Se aplican varios patrones de diseño en el código:
 - **Singleton**: Se utiliza para garantizar que ciertos objetos sean instanciados una sola vez.
 - **Repository**: Abstrae la capa de datos, permitiendo un desacoplamiento entre la lógica de negocio y la base de datos.
 - **Factory**: Se aplica para la creación de ciertos objetos de manera controlada.
-- **Adapter utilizando Strategy**: Se emplea el patrón Adapter junto con el patrón Strategy para facilitar la interoperabilidad entre diferentes interfaces y permitir la elección del algoritmo adecuado de manera dinámica.
+- **Adapter**: Permite la interacción entre interfaces incompatibles, facilitando la integración de sistemas o componentes.
 
 ## Inyección de Dependencias
 Se utiliza la librería Awilix para gestionar la inyección de dependencias, lo que facilita la escalabilidad y mantenimiento del código.
