@@ -14,7 +14,7 @@ class PaymentService {
       const ticket = await this.CartManager.checkOut(cartId);
         logger.info(ticket.amount)
       const paymentIntent = await this.service.paymentIntents.create({
-        amount: Math.round(ticket.amount * 100),
+        amount: Math.round(Number(ticket.amount) * 100),
         currency: 'ars',
       });
 
