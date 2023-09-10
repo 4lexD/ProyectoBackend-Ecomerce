@@ -105,7 +105,11 @@ class CartController{
             const paymentService = new PaymentService();
             const paymentIntent  = await paymentService.createPaymentIntent(cid);
 
+<<<<<<< HEAD
             res.status(200).send({message: "success", clientSecret: paymentIntent.clientSecret, ticket: paymentIntent.ticket});
+=======
+            res.status(200).send({message: "success", clientSecret: paymentIntent.clientSecret});
+>>>>>>> 42da1df3816f43ebd94cdb5b61f53aaef7618e76
         } catch (e) {
             next(e);
         };
