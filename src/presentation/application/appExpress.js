@@ -9,7 +9,7 @@ import roleRouter from '../../presentation/routes/roleRouter.js';
 import errorHandler from '../../presentation/middlewares/errorHandler.js';
 import config from '../../config/config.js';
 import logger from "../../shared/pino/logger.js";
-import paymentRouter from '../routes/paymentRouter.js';
+
 const {PORT} = config;
 class AppExpress{
     init(){
@@ -26,7 +26,6 @@ class AppExpress{
         this.app.use("/api/users", userRouter);
         this.app.use("/api/session",sessionRouter);
         this.app.use("/api/roles",roleRouter);
-        this.app.use("/api/payment",paymentRouter);
         this.app.use(errorHandler);
     }
 
