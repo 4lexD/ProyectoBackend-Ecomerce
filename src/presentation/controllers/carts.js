@@ -100,10 +100,11 @@ class CartController{
     static purcharse = async (req,res,next) =>{
         try {
             const {cid} = req.params;
-            const manager = new CartManager();
-            const result = await manager.checkOut(cid);
 
-            res.status(200).send({message: "success", result});
+            const paymentService = new PaymentService();
+            const paymentIntent  = await paymentService.createPaymentIntent(cid);
+
+            res.status(200).send({message: "success", clientSecret: paymentIntent.clientSecret});
         } catch (e) {
             next(e);
         };
