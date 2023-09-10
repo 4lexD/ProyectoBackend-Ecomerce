@@ -20,7 +20,7 @@ class PaymentService {
 
       return {
         clientSecret: paymentIntent.client_secret,
-        ticketId: ticket.id
+        ticket: ticket
       };
     } catch (error) {
       throw new Error(`Error al crear el pago: ${error.message}`);
