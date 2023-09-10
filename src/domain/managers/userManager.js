@@ -18,7 +18,7 @@ class UserManager {
     }
 
     async getOne(id){
-        await idValidation.parseAsync(id);
+        await idValidation.parseAsync({ id: id });
         return this.users.findOne(id);
     }
 

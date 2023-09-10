@@ -18,17 +18,17 @@ class RoleManager{
     }
 
     async getOne(id){
-        await idValidation.parseAsync(id);
+        await idValidation.parseAsync({id:id});
         return this.role.getOne(id);
     }
 
     async updateOne(id,data){
-        await roleUpdateValidation.parseAsync(...data,id);
+        await roleUpdateValidation.parseAsync({...data,id});
         return this.role.updateOne(id,data);
     }
 
     async deleteOne(id){
-        await idValidation.parseAsync(id);
+        await idValidation.parseAsync({id:id});
         return this.role.deleteOne(id);
     }
 

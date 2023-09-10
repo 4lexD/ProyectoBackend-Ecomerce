@@ -14,7 +14,7 @@ class ProductManager{
     }
 
     async getOne(id){
-        await idValidation.parseAsync(id);
+        await idValidation.parseAsync({ id: id });
         return this.products.findById(id);
     }
 
@@ -23,12 +23,12 @@ class ProductManager{
     }
 
     async updateOne(id, data){
-        await productUpdateValidation.parseAsync(...data,id)
+        await productUpdateValidation.parseAsync({...data,id})
         return this.products.updateById(id, data);  
     }
 
     async deleteOne(id){
-        await idValidation.parseAsync(id);
+        await idValidation.parseAsync({ id: id });
         return this.products.removeById(id);
     };
 
