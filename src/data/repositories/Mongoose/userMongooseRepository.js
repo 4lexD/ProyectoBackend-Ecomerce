@@ -132,7 +132,20 @@ class UserMongooseRepository {
         })
         return cleanUsers;
     }
+    async addRole(uid,rid){
+        const userDocument = await userModel.findByIdAndUpdate({ _id: uid },{role:rid},{ new: true })
 
+        return new User({
+            id: userDocument._id.toString(),
+            firstName: userDocument.firstName,
+            lastName: userDocument.lastName,
+            email: userDocument.email,
+            age: userDocument.age,
+            password: userDocument.password,
+            isAdmin: userDocument.isAdmin,
+            role: userDocument?.role
+        });
+    }
 };
 
 export default UserMongooseRepository;

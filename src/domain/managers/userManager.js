@@ -44,6 +44,14 @@ class UserManager {
     async userCleanup(){
         return this.users.userCleanup();
     }
+
+    async deleteUser(id){
+        await idValidation.parseAsync({ id: id });
+        return this.users.delete(id);
+    }
+    async addRole(cid,uid){
+        return this.users.addRole(cid,uid);
+    }
 }
 
 

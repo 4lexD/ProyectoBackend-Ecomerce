@@ -17,7 +17,7 @@ class RoleController{
         try {
             const { limit, page } = req.query;
             const manager = new RoleManager();
-            const roles = await manager.addOne({ limit, page });
+            const roles = await manager.getAll({ limit, page });
 
             res.status(200).send({message: "success",roles: roles.docs, ...roles, docs: undefined});
 
