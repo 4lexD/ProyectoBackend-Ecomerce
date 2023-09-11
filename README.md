@@ -7,7 +7,8 @@
 Este proyecto representa el backend de una aplicación de comercio electrónico.
 
 ## Stack Tecnológico
-El backend está desarrollado en Node.js utilizando el framework Express. Utiliza una base de datos NoSQL MongoDB con el ODM Mongoose.
+El backend está desarrollado en **NodeJS** utilizando el framework **[Express](https://expressjs.com/)**. Utiliza una base de datos **NoSQL [MongoDB](https://www.mongodb.com/docs/manual/)** con el **ODM [Mongoose](https://mongoosejs.com/docs/guide.html)**.
+.
 
 ## Arquitectura en Capas
 El código está organizado siguiendo una arquitectura en capas para mejorar la modularidad y la mantenibilidad del sistema. Las capas son las siguientes:
@@ -25,7 +26,7 @@ Se aplican varios patrones de diseño en el código:
 - **Adapter**: Permite la interacción entre interfaces incompatibles, facilitando la integración de sistemas o componentes.
 
 ## Inyección de Dependencias
-Se utiliza la librería Awilix para gestionar la inyección de dependencias, lo que facilita la escalabilidad y mantenimiento del código.
+Se utiliza la librería **[Awilix]([https://www.mongodb.com/docs/manual/](https://github.com/jeffijoe/awilix))** para gestionar la inyección de dependencias, lo que facilita la escalabilidad y mantenimiento del código.
 
 ## Contenedorización
 El proyecto incluye un Dockerfile y un archivo docker-compose para permitir la ejecución de la aplicación en un entorno contenerizado.
