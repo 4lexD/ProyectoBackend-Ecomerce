@@ -26,7 +26,7 @@ Se aplican varios patrones de diseño en el código:
 - **Adapter**: Permite la interacción entre interfaces incompatibles, facilitando la integración de sistemas o componentes.
 
 ## Inyección de Dependencias
-Se utiliza la librería **[Express](https://github.com/jeffijoe/awilix)** para gestionar la inyección de dependencias, lo que facilita la escalabilidad y mantenimiento del código.
+Se utiliza la librería **[Awilix](https://github.com/jeffijoe/awilix)** para gestionar la inyección de dependencias, lo que facilita la escalabilidad y mantenimiento del código.
 
 ## Contenedorización
 El proyecto incluye un Dockerfile y un archivo docker-compose para permitir la ejecución de la aplicación en un entorno contenerizado.
