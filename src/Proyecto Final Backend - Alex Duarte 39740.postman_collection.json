@@ -1,0 +1,986 @@
+{
+	"info": {
+		"_postman_id": "64f46862-05b3-4757-9bdc-87e59ae7d874",
+		"name": "Proyecto Final Backend - Alex Duarte 39740",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24394012"
+	},
+	"item": [
+		{
+			"name": "Sessions",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{FIRSTNAME}}\",\r\n    \"lastName\": \"{{LASTNAME}}\",\r\n    \"email\": \"{{EMAIL}}\",\r\n    \"age\": {{AGE}},\r\n    \"password\": \"{{PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/session/signup",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"session",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Admin default)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if (responseJson.accessToken) {\r",
+									"    pm.environment.set(\"accessToken\", responseJson.accessToken);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{ADMIN_EMAIL}}\",\r\n    \"password\": \"{{ADMIN_PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/session/login",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"session",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{EMAIL}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/session/forgot-password",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"session",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/sessions/reset-password/{{RESET_PASSWORD_TOKEN}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"reset-password",
+								"{{RESET_PASSWORD_TOKEN}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Verificar si la respuesta contiene datos válidos\r",
+									"if (responseJson.result && responseJson.result.payload && responseJson.result.payload.length > 0) {\r",
+									"    const firstProductID = responseJson.result.payload[0].id;\r",
+									"    pm.environment.set(\"PID\", firstProductID);\r",
+									"    console.log(`Se ha guardado el ID del primer producto: ${firstProductID}`);\r",
+									"} else {\r",
+									"    console.error(\"No se encontraron productos en la respuesta.\");\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/products",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product(permission)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Pedalera Quad Cortex NeuralDSP\",\r\n    \"description\":\"Pedalera Quad Cortex desarrollada por NeuralDSP es una... \",\r\n    \"code\":\"NdspQX-12\",\r\n    \"price\":1200,\r\n    \"thumbnail\":\"https://http2.mlstatic.com/D_NQ_NP_832909-MLA51453910302_092022-O.webp\",\r\n    \"stock\":12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/products",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product (permission)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product(permission)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Guitarra Acústica Taylor 214Ce\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "Create Cart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"CID\", pm.response.json().result.id)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}/product/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}",
+								"product",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}/user/{{USERADMINID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}",
+								"user",
+								"{{USERADMINID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart Quantity",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}/product/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}",
+								"product",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Products in cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}/product/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}",
+								"product",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Purcharse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CID}}/purcharse",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CID}}",
+								"purcharse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users(ADMIN)",
+			"item": [
+				{
+					"name": "Get Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const firstUserId = response.result.users[0].id;\r",
+									"pm.environment.set(\"USER_ID\", firstUserId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users?limit=4",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{FIRSTNAME}}\",\r\n    \"lastName\": \"{{LASTNAME}}\",\r\n    \"email\": \"{{EMAIL}}\",\r\n    \"password\": \"{{PASWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/users",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age\": 23,\r\n    \"enabled\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_ID}}/role/{{ROLE_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_ID}}",
+								"role",
+								"{{ROLE_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles(ADMIN)",
+			"item": [
+				{
+					"name": "Create Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const roleId = response.role.id;\r",
+									"pm.environment.set(\"ROLEID\", roleId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Nombre \",\r\n  \"permissions\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/roles",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/roles?limit=10",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"roles"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/roles/{{ROLEID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"roles",
+								"{{ROLEID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"permissions\":[\"permiso1\",\"permiso2\",\"permiso3\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/roles/{{ROLEID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"roles",
+								"{{ROLEID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/roles/{{ROLEID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"roles",
+								"{{ROLEID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "APIURL",
+			"value": "https://proyectobackend-ecomerce-p9sp-dev.fl0.io/api"
+		},
+		{
+			"key": "ROLE_ID",
+			"value": "649bac49092cfd5b3fd1f202"
+		}
+	]
+}
